@@ -1,6 +1,7 @@
 /* jshint node: true */
 'use strict';
 
+var debug = require('debug')('firetruck');
 var http = require('http');
 var https = require('https');
 var mapleTree = require('mapleTree');
@@ -19,15 +20,43 @@ var mapleTree = require('mapleTree');
 **/
 var firetruck = module.exports = function() {
 
-  // create the route tree
-  var routes = new mapleTree.RouteTree();
+  /**
+    ### app(route, handler)
+
+    ```js
+    app('/index', function(req, res) {
+      res.writeHead(200);
+      res.write('hello');
+      res.end();
+    });
+    ```
+  **/
   var app = function(route, handler) {
+    router.define(route, handler);
   };
 
-  // attach a listen method
-  app.attach = function() {
+
+  // create the route tree
+  var router = app.router = new mapleTree.RouteTree();
+
+  /**
+    ### attach(server)
+
+    Attach the firetruck application to the specified server instance
+  **/
+  app.attach = function(target) {
+    debug('attaching to server');
+    target.on('request', function(req, res) {
+      var match = router.match(req.url);
+
+      debug('received request: ' + req.url + ', got match: ' + (!!match));
+      if (match.fn) {
+        match.fn(req, res);
+      }
+    });
   };
 
   return app;
 };
 
+firetruck.json = require('./json');

@@ -22,9 +22,11 @@
     "url": "https://github.com/DamonOehlman/firetruck/issues"
   },
   "devDependencies": {
-    "tap": "~0.4.3"
+    "tape": "~1.0.4",
+    "hyperquest": "~0.1.7"
   },
   "dependencies": {
-    "mapleTree": "~0.5.0-1"
+    "mapleTree": "~0.5.0-1",
+    "debug": "*"
   }
 }
