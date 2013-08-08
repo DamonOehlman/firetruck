@@ -4,7 +4,8 @@
   "description": "Not a web framework",
   "main": "index.js",
   "scripts": {
-    "test": "node test/all.js"
+    "test": "node test/all.js",
+    "gendocs": "sourcecat | emu > README.md"
   },
   "repository": {
     "type": "git",

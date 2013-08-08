@@ -39,6 +39,15 @@ var firetruck = module.exports = function() {
   // create the route tree
   var router = app.router = new mapleTree.RouteTree();
 
+  function handleRequest(req, res) {
+    var match = router.match(req.url);
+
+    debug('received request: ' + req.url + ', got match: ' + (!!match));
+    if (match.fn) {
+      match.fn(req, res);
+    }
+  };
+
   /**
     ### attach(server)
 
@@ -46,14 +55,16 @@ var firetruck = module.exports = function() {
   **/
   app.attach = function(target) {
     debug('attaching to server');
-    target.on('request', function(req, res) {
-      var match = router.match(req.url);
+    target.on('request', handleRequest);
+  };
 
-      debug('received request: ' + req.url + ', got match: ' + (!!match));
-      if (match.fn) {
-        match.fn(req, res);
-      }
-    });
+  /**
+    ### detach(server)
+
+    Detach from the specified server.
+  **/
+  app.detach = function(target) {
+    target.removeListener('request', handleRequest);
   };
 
   return app;

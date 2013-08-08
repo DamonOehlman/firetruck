@@ -21,3 +21,7 @@ app('/index', function(req, res) {
 ### attach(server)
 
 Attach the firetruck application to the specified server instance
+
+### detach(server)
+
+Detach from the specified server.
