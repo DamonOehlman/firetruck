@@ -3,7 +3,6 @@
 
 var debug = require('debug')('firetruck');
 var http = require('http');
-var https = require('https');
 var mapleTree = require('mapleTree');
 
 /**
