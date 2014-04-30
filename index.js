@@ -2,22 +2,18 @@
 'use strict';
 
 var debug = require('debug')('firetruck');
-var http = require('http');
 var mapleTree = require('mapleTree');
 
 /**
   # firetruck
 
-  A simple http server with simple routing courtesy of
-  [mapleTree](https://github.com/saambarati/mapleTree)
+  A simple, opinionated server unframework for getting stuff done.
 
-  ```js
-  var firetruck = require('firetruck');
-  var app = firetruck();
-  ```
+  ### Example Usage
 
+  <<< examples/simple-server.js
 **/
-var firetruck = module.exports = function() {
+var firetruck = module.exports = function(server) {
 
   /**
     ### app(route, handler)
@@ -66,7 +62,10 @@ var firetruck = module.exports = function() {
     target.removeListener('request', handleRequest);
   };
 
+  // if we have been provided a server instance, then attach immediately
+  if (server) {
+    app.attach(server);
+  }
+
   return app;
 };
-
-firetruck.json = require('./json');
