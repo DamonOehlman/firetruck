@@ -1,8 +1,12 @@
 /* jshint node: true */
 'use strict';
 
+var async = require('async');
 var debug = require('debug')('firetruck');
 var mapleTree = require('mapleTree');
+var path = require('path');
+var fs = require('fs');
+var st = require('st');
 
 /**
   # firetruck
@@ -13,7 +17,11 @@ var mapleTree = require('mapleTree');
 
   <<< examples/simple-server.js
 **/
-var firetruck = module.exports = function(server) {
+var firetruck = module.exports = function(server, opts) {
+
+  // get the base dir
+  var basePath = (opts || {}).basePath || guessBaseDir();
+  var clientPath = path.resolve(basePath, (opts || {}).clientPath || 'client');
 
   /**
     ### app(route, handler)
@@ -33,6 +41,10 @@ var firetruck = module.exports = function(server) {
 
   // create the route tree
   var router = app.router = new mapleTree.RouteTree();
+
+  function guessBaseDir() {
+    return module && module.parent && path.dirname(module.parent.filename);
+  }
 
   function handleRequest(req, res) {
     var match = router.match(req.url);
@@ -75,6 +87,15 @@ var firetruck = module.exports = function(server) {
   if (server) {
     app.attach(server);
   }
+
+  fs.exists(clientPath, function(exists) {
+    if (! exists) {
+      return;
+    }
+
+    app.browserify(path.resolve(clientPath, 'js'));
+    router.define('/*', st(path.resolve(clientPath, 'static')));
+  });
 
   return app;
 };
