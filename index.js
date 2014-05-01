@@ -62,6 +62,15 @@ var firetruck = module.exports = function(server) {
     target.removeListener('request', handleRequest);
   };
 
+  /**
+    ### browserify(targetFolder)
+
+    This is a helper to pass all .js files through the `firetruck/browserify` helper.
+  **/
+  app.browserify = function(basePath) {
+    router.define(/^(.*\.js)$/, browserify(basePath));
+  };
+
   // if we have been provided a server instance, then attach immediately
   if (server) {
     app.attach(server);
@@ -69,3 +78,5 @@ var firetruck = module.exports = function(server) {
 
   return app;
 };
+
+var browserify = firetruck.browserify = require('./browserify');
