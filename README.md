@@ -1,11 +1,15 @@
 # firetruck
 
-A simple http server with simple routing courtesy of
-[mapleTree](https://github.com/saambarati/mapleTree)
+A simple, opinionated server unframework for getting stuff done.
+
+### Example Usage
 
 ```js
 var firetruck = require('firetruck');
-var app = firetruck();
+
+firetruck()
+  .
+  .listen()
 ```
 
 ### app(route, handler)
@@ -25,3 +29,7 @@ Attach the firetruck application to the specified server instance
 ### detach(server)
 
 Detach from the specified server.
+
+### browserify(targetFolder)
+
+This is a helper to pass all .js files through the `firetruck/browserify` helper.
