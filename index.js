@@ -89,12 +89,18 @@ var firetruck = module.exports = function(server, opts) {
   }
 
   fs.exists(clientPath, function(exists) {
+    var mount;
+
     if (! exists) {
       return;
     }
 
+    // mount the static serving endpoint
+    mount = st(path.resolve(clientPath, 'static'));
+
     app.browserify(path.resolve(clientPath, 'js'));
-    router.define('/*', st(path.resolve(clientPath, 'static')));
+    router.define('/*', mount);
+    router.define('/', mount);
   });
 
   return app;
