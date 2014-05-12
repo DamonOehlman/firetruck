@@ -1,6 +1,6 @@
 {
   "name": "firetruck",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Not a web framework",
   "main": "index.js",
   "scripts": {
