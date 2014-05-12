@@ -93,9 +93,14 @@ var firetruck = module.exports = function(server, opts) {
   function handleRequest(req, res) {
     var match = router.match(req.url);
 
-    debug('received request: ' + req.url + ', got match: ' + (!!match));
+    debug('received request: ' + req.url + ', got match: ' + !!(match && match.fn));
     if (match.fn) {
       match.fn(req, res);
+    }
+    else {
+      debug('not found, writing 404');
+      res.writeHead(404);
+      res.end('not found');
     }
   };
 
