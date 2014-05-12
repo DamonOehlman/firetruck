@@ -64,7 +64,22 @@ var firetruck = module.exports = function(server, opts) {
     ```
   **/
   var app = function(route, handler) {
-    router.define(route, handler);
+    var builder;
+
+    // if the handler has been defined, register immediately
+    if (typeof handler == 'function') {
+      router.define(route, handler);
+      return app;
+    }
+
+    return require('./builder')(function(err, handler) {
+      if (err) {
+        // TODO: if an error was enountered, then create an error handler
+        return;
+      }
+
+      router.define(route, handler);
+    });
   };
 
 
@@ -114,7 +129,7 @@ var firetruck = module.exports = function(server, opts) {
 
   // if we have been provided a server instance, then attach immediately
   if (server) {
-    app.attach(server);
+    app.attach(app.server = server);
   }
 
   fs.exists(clientPath, function(exists) {
