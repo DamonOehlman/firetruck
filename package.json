@@ -27,8 +27,8 @@
     "hyperquest": "~0.3"
   },
   "dependencies": {
-    "async": "~0.7",
-    "browserify": "^3",
+    "async": "~0.8",
+    "browserify": "^4",
     "st": "~0.4",
     "mapleTree": "~0.5",
     "debug": "~0.8"
