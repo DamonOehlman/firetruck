@@ -14,7 +14,7 @@ module.exports = function(basePath) {
     }
 
     b.on('error', handleError);
-    b.bundle()
+    b.bundle({ debug: true })
       .on('error', handleError)
       .once('data', function() {
         res.writeHead(200, {
