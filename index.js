@@ -7,6 +7,7 @@ var mapleTree = require('mapleTree');
 var path = require('path');
 var fs = require('fs');
 var st = require('st');
+var Writer = require('./writer');
 
 /**
   # firetruck
@@ -66,25 +67,42 @@ var firetruck = module.exports = function(server, opts) {
   var app = function(route, handler) {
     var builder;
 
-    // if the handler has been defined, register immediately
-    if (typeof handler == 'function') {
-      router.define(route, handler);
-      return app;
+    // if the handler is an object (GET, PUT, POST, DELETE endpoints)
+    if (typeof handler == 'object') {
+      handler = createMethodHandler(handler);
     }
 
-    return require('./builder')(function(err, handler) {
-      if (err) {
-        // TODO: if an error was enountered, then create an error handler
-        return;
-      }
+    // if the handler has been defined, register immediately
+    if (typeof handler != 'function') {
+      throw new Error('A handler function is required to register a route');
+    }
 
-      router.define(route, handler);
-    });
+    router.define(route, handler);
+    return app;
   };
 
 
   // create the route tree
   var router = app.router = new mapleTree.RouteTree();
+
+  function createMethodHandler(mod) {
+    var handlers = {};
+
+    // ensure we have uppercase versions of the method endpoints
+    Object.keys(mod).forEach(function(key) {
+      handlers[key.toUpperCase()] = mod[key];
+    });
+
+    return function(req) {
+      var handler = handlers[req.method];
+
+      if (typeof handler != 'function') {
+        return this.notFound();
+      }
+
+      return handler.call(this, req);
+    };
+  }
 
   function guessBaseDir() {
     return module && module.parent && path.dirname(module.parent.filename);
@@ -95,7 +113,7 @@ var firetruck = module.exports = function(server, opts) {
 
     debug('received request: ' + req.url + ', got match: ' + !!(match && match.fn));
     if (match.fn) {
-      match.fn(req, res);
+      match.fn.call(new Writer(res, match), req);
     }
     else {
       debug('not found, writing 404');
