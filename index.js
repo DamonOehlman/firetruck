@@ -77,7 +77,10 @@ var firetruck = module.exports = function(server, opts) {
       throw new Error('A handler function is required to register a route');
     }
 
-    router.define(route, handler);
+    router.define(route, function(req, res) {
+      handler.call(new Writer(res, this), req);
+    });
+
     return app;
   };
 
@@ -112,8 +115,8 @@ var firetruck = module.exports = function(server, opts) {
     var match = router.match(req.url);
 
     debug('received request: ' + req.url + ', got match: ' + !!(match && match.fn));
-    if (match.fn) {
-      match.fn.call(new Writer(res, match), req);
+    if (typeof match.fn == 'function') {
+      match.fn(req, res);
     }
     else {
       debug('not found, writing 404');
