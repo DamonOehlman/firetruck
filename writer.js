@@ -25,6 +25,14 @@ prot.json = function(data) {
   this.end(JSON.stringify(data));
 };
 
+prot.error = function(err) {
+  if (! this.res.headersSent) {
+    this.res.writeHead(500);
+  }
+
+  this.res.end('' + err);
+};
+
 // proxy some response methods straight through
 [ 'writeHead', 'end' ].forEach(function(method) {
   prot[method] = function() {
