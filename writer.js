@@ -1,3 +1,4 @@
+var sse = require('./sse');
 var ALIASES = [
   [ 'ok', 200 ],
   [ 'notFound', 404 ]
@@ -31,6 +32,16 @@ prot.error = function(err) {
   }
 
   this.res.end('' + err);
+};
+
+prot.sse = function(callback) {
+  if (! this.res.headersSent) {
+    this.ok({
+      'Content-Type': 'text/event-stream'
+    });
+  }
+
+  callback(sse(this.res));
 };
 
 // proxy some response methods straight through
