@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "async": "~0.9",
-    "browserify": "^4",
-    "st": "~0.5",
+    "browserify": "^5.10.1",
+    "debug": "^1.0.4",
     "mapleTree": "~0.5",
-    "debug": "~0.8"
+    "st": "~0.5"
   }
 }
