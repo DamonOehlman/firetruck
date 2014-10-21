@@ -23,8 +23,8 @@
     "url": "https://github.com/DamonOehlman/firetruck/issues"
   },
   "devDependencies": {
-    "tape": "^2",
-    "hyperquest": "~0.3"
+    "hyperquest": "^1.0.1",
+    "tape": "^3.0.1"
   },
   "dependencies": {
     "async": "~0.9",
