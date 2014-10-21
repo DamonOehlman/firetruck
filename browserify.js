@@ -4,7 +4,7 @@ var browserify = require('browserify');
 module.exports = function(basePath) {
   return function(req, res) {
     // create a new browserify instance
-    var b = browserify(basePath + req.url);
+    var b = browserify(basePath + req.url, { debug: true });
 
     function handleError(err) {
       debug('encountered error attempting to browserify url: ' + req.url, err);
@@ -14,7 +14,7 @@ module.exports = function(basePath) {
     }
 
     b.on('error', handleError);
-    b.bundle({ debug: true })
+    b.bundle()
       .on('error', handleError)
       .once('data', function() {
         res.writeHead(200, {
