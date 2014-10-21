@@ -29,7 +29,7 @@
   "dependencies": {
     "async": "~0.9",
     "browserify": "^6.1.0",
-    "debug": "^1.0.4",
+    "debug": "^2.1.0",
     "mapleTree": "~0.5",
     "st": "~0.5"
   }
