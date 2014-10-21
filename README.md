@@ -5,7 +5,7 @@ A simple, opinionated server unframework for getting stuff done.
 
 [![NPM](https://nodei.co/npm/firetruck.png)](https://nodei.co/npm/firetruck/)
 
-![experimental](https://img.shields.io/badge/stability-experimental-red.svg)
+[![experimental](https://img.shields.io/badge/stability-experimental-red.svg)](https://github.com/dominictarr/stability#experimental) 
 
 ## Example Usage
 
