@@ -53,6 +53,10 @@ prot.sse = function(callback) {
 
 ALIASES.forEach(function(alias) {
   prot[alias[0]] = function(headers) {
+    // write the head
     this.res.writeHead(alias[1], headers);
+
+    // return the res
+    return this.res;
   };
 });
