@@ -57,10 +57,8 @@ var firetruck = module.exports = function(server, opts) {
     ### app(route, handler)
 
     ```js
-    app('/index', function(req, res) {
-      res.writeHead(200);
-      res.write('hello');
-      res.end();
+    app('/index', function(req) {
+      this.text('hello');
     });
     ```
   **/
