@@ -49,6 +49,16 @@ prot.sse = function(callback) {
   callback(sse(this.res));
 };
 
+prot.text = function(data) {
+  if (! this.res.headersSent) {
+    this.ok({
+      'Content-Type': 'text/plain'
+    });
+  }
+
+  this.end(data);
+};
+
 // proxy some response methods straight through
 [ 'writeHead', 'end' ].forEach(function(method) {
   prot[method] = function() {
