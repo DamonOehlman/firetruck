@@ -7,10 +7,10 @@ var server = http.createServer();
 
 test('create index route', function(t) {
   t.plan(1);
-  app('/index', function(req, res) {
-    res.writeHead(200);
-    res.write('hello');
-    res.end();
+  app('/index', function(req) {
+    this.writeHead(200);
+    this.write('hello');
+    this.end();
   });
 
   t.ok(app.router.match('/index').perfect, 'found /index route');
