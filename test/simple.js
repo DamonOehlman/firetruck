@@ -8,7 +8,7 @@ var server = http.createServer();
 test('create index route', function(t) {
   t.plan(1);
   app('/index', function(req) {
-    this.writeHead(200);
+    this.ok();
     this.write('hello');
     this.end();
   });
