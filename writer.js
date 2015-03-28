@@ -16,6 +16,11 @@ function Writer(res, match) {
 module.exports = Writer;
 var prot = Writer.prototype;
 
+prot.write = function() {
+  // pass through to the res
+  this.res.write.apply(this.res, arguments);
+};
+
 prot.json = function(data) {
   if (! this.res.headersSent) {
     this.ok({
