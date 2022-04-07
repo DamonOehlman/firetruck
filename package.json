@@ -28,7 +28,7 @@
     "tape": "^4.11.0"
   },
   "dependencies": {
-    "async": "^3.1.0",
+    "async": "^3.2.2",
     "browserify": "^16.5.0",
     "debug": "^4.1.1",
     "mapleTree": "~0.5",
